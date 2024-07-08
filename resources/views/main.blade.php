@@ -1,11 +1,29 @@
+<style>
 
-@foreach($users as $user)
+    .btn-delete {
+        border: none;
+        background: none;
+    }
+</style>
+
+<form action="{{route('get.index')}}" method="get">
+    <input type="text" name="search"  value="{{request()->get('search')}}">
+    <button type="submit">Tìm kiếm</button>
+</form>
+
 <ul>
-    <li>
-        {{$user->name}} - {{$user->email}}
-    </li>
+    @foreach($users as $user)
+        <li>
+            {{$user->name}} - {{$user->email}} -
+            <a href="{{route('get.detail', ['id' => $user->id])}}">edit</a>
+            -
+            <form action="{{route('post.delete', ['id' => $user->id])}}" method="post">
+                @csrf
+                <button class="btn-delete" type="submit">Delete</button>
+            </form>
+        </li>
+    @endforeach
 </ul>
-@endforeach
 
 <h1>Main</h1>
 <form action="{{route('post.create')}}" method="post">
